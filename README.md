@@ -1,6 +1,6 @@
 ##Task Start
 
-Simple desctop launcher uses jump lists
+Simple desktop launcher uses jump lists
 
 ![](/desc/1.png)
 
