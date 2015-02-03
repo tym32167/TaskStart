@@ -8,7 +8,7 @@ namespace TaskStart.Tasks
 {
 	public class Settings
 	{
-		private const string SettingsFileName = "Settings.xml";
+        private string SettingsFileName = string.Format("Settings{0}.xml", Environment.Is64BitOperatingSystem ? 64 : 32);
 
 		private Settings()
 		{
