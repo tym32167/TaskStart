@@ -1,70 +1,69 @@
 ﻿<Window x:Class="TaskStart.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Icon="Images/app.ico" 
-		Drop="WindowDrop" AllowDrop="True" 
-		WindowStartupLocation="CenterScreen"
+        Icon="Images/app.ico" 
+        Drop="WindowDrop" AllowDrop="True" 
+        WindowStartupLocation="CenterScreen"
         Title="Task Start" Height="550" Width="725">
-	<Window.CommandBindings>
-		<CommandBinding Command="ApplicationCommands.Close"
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
                     Executed="CloseCommandHandler"
                     CanExecute="CanExecuteHandler" />
-	</Window.CommandBindings>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="32"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<Menu>
-			<MenuItem Header="File">
-				<MenuItem Header="Exit"  Command="ApplicationCommands.Close" >
-				</MenuItem>
-			</MenuItem>
-		</Menu>
-		<ToolBar Grid.Row="1">
-			<ToolBar.Resources>
-				<Style TargetType="{x:Type Image}">
-					<Style.Triggers>
-						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
-							<Setter Property="Opacity" Value="0.30" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</ToolBar.Resources>			
-			<Button Command="{Binding ApplyCommand}">
-				<Image Source="Images/apply.png" Height="16"/>
-			</Button>			
-		</ToolBar>
-		<DataGrid  x:Name="dg"
-			Grid.Row="2" ItemsSource="{Binding Tasks, Mode=TwoWay}" AutoGenerateColumns="False" CanUserReorderColumns="True" CanUserResizeColumns="True" 
-          CanUserResizeRows="False" CanUserSortColumns="True" CanUserAddRows="True" CanUserDeleteRows="True"  Margin="5"  >
-			<DataGrid.Columns>
-				<DataGridTemplateColumn>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<Image  Source="{Binding Icon, Mode=OneWay}" Stretch="Uniform" Width="16"></Image>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Category"  Binding="{Binding Category, Mode=TwoWay}" Width="Auto"></DataGridTextColumn>
-				<DataGridTextColumn Header="Title"  Binding="{Binding Title, Mode=TwoWay}" Width="Auto"></DataGridTextColumn>
-				<DataGridTextColumn Header="Description" Binding="{Binding Description, Mode=TwoWay}" Width="Auto"></DataGridTextColumn>
-				<DataGridTemplateColumn Header="ApplicationPath" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<Button  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="2" CommandParameter="{Binding ApplicationPath}" Command="{Binding StartCommand}" >
-								<Button.Background>
-									<SolidColorBrush Color="Transparent"></SolidColorBrush>
-								</Button.Background>
-								<Button.Content>
-									<TextBlock  Text="{Binding ApplicationPath, Mode=OneWay}"></TextBlock>
-								</Button.Content>
-							</Button>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>				
-			</DataGrid.Columns>
-		</DataGrid>
-	</Grid>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Exit"  Command="ApplicationCommands.Close" >
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <ToolBar Grid.Row="1">
+            <ToolBar.Resources>
+                <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}, AncestorLevel=1}, Path=IsEnabled}" Value="False">
+                            <Setter Property="Opacity" Value="0.30" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ToolBar.Resources>			
+            <Button Command="{Binding ApplyCommand}">
+                <Image Source="Images/apply.png" Height="16"/>
+            </Button>			
+        </ToolBar>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Tasks, Mode=TwoWay}" AutoGenerateColumns="False" 
+                  CanUserReorderColumns="True" CanUserResizeColumns="True" 
+                  CanUserResizeRows="False" CanUserSortColumns="True" CanUserAddRows="True" CanUserDeleteRows="True"  Margin="5"  >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image  Source="{Binding Icon, Mode=OneWay}" Stretch="Uniform" Width="16"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Category"  Binding="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title"  Binding="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Path" Binding="{Binding ApplicationPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Args" Binding="{Binding ApplicationArguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*"></DataGridTextColumn>
+
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="2" CommandParameter="{Binding}" Command="{Binding StartCommand}" >
+                                RUN
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+</DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </Window>

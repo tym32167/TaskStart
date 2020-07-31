@@ -6,51 +6,48 @@ using System.Xml.Serialization;
 
 namespace TaskStart.Tasks
 {
-	public class Settings
-	{
-        private string SettingsFileName = string.Format("Settings{0}.xml", Environment.Is64BitOperatingSystem ? 64 : 32);
+    public class Settings
+    {
+        private readonly string _settingsFileName = $"Settings{(Environment.Is64BitOperatingSystem ? 64 : 32)}.xml";
 
-		private Settings()
-		{
+        private Settings()
+        {
 
-		}
+        }
 
-		private static Settings _instance;
-		public static Settings Instance
-		{
-			get { return _instance ?? (_instance = new Settings()); }
-		}
+        private static Settings _instance;
+        public static Settings Instance => _instance ?? (_instance = new Settings());
 
-		public IEnumerable<Task> GetTasks()
-		{
-			var result = new List<Task>();
-			if (File.Exists(SettingsFileName))
-			{
-				try
-				{
-					var xmlSer = new XmlSerializer(typeof(List<Task>));
-					using (var sr = new StreamReader(SettingsFileName))
-					{
-						var res = xmlSer.Deserialize(sr) as List<Task>;
-						result = res ?? new List<Task>();
-					}
-				}
-				catch (Exception)
-				{
-					return result;
-				}
-			}
-			return result;
-		}
+        public IEnumerable<Task> GetTasks()
+        {
+            var result = new List<Task>();
+            if (File.Exists(_settingsFileName))
+            {
+                try
+                {
+                    var xmlSer = new XmlSerializer(typeof(List<Task>));
+                    using (var sr = new StreamReader(_settingsFileName))
+                    {
+                        var res = xmlSer.Deserialize(sr) as List<Task>;
+                        result = res ?? new List<Task>();
+                    }
+                }
+                catch (Exception)
+                {
+                    return result;
+                }
+            }
+            return result;
+        }
 
-		public void SetTasks(IEnumerable<Task> tasks)
-		{
-			var taskList = tasks.ToList();
-			using (var sw = new StreamWriter(SettingsFileName, false))
-			{
-				var xmlSer = new XmlSerializer(typeof(List<Task>));
-				xmlSer.Serialize(sw, taskList);
-			}
-		}
-	}
+        public void SetTasks(IEnumerable<Task> tasks)
+        {
+            var taskList = tasks.ToList();
+            using (var sw = new StreamWriter(_settingsFileName, false))
+            {
+                var xmlSer = new XmlSerializer(typeof(List<Task>));
+                xmlSer.Serialize(sw, taskList);
+            }
+        }
+    }
 }
